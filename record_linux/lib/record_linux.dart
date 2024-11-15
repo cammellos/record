@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:record_platform_interface/record_platform_interface.dart';
 
-const _fmediaBin = 'fmedia';
+const _fmediaBin = 'phiola';
 
 const _pipeProcName = 'record_linux';
 

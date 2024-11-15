@@ -65,7 +65,7 @@ class RecordLinux extends RecordPlatform {
   @override
   Future<void> pause(String recorderId) async {
     if (_state == RecordState.record) {
-      await _callFMedia(['--globcmd=pause'], recorderId: recorderId);
+      await _callFMedia(['remote pause'], recorderId: recorderId);
 
       _updateState(RecordState.pause);
     }
@@ -74,7 +74,7 @@ class RecordLinux extends RecordPlatform {
   @override
   Future<void> resume(String recorderId) async {
     if (_state == RecordState.pause) {
-      await _callFMedia(['--globcmd=unpause'], recorderId: recorderId);
+      await _callFMedia(['remote resume'], recorderId: recorderId);
 
       _updateState(RecordState.record);
     }
@@ -109,12 +109,13 @@ class RecordLinux extends RecordPlatform {
 
     await _callFMedia(
       [
-        '--remote', //
-        '--out $path',
-        '--rate ${config.sampleRate}',
-        '--channels $numChannels',
-        '--gain 6.0',
-        if (config.device != null) '--device ${config.device!.id}',
+        '-Background',
+        '-remote', //
+        '-out $path',
+        '-rate ${config.sampleRate}',
+        '-channels $numChannels',
+        '-gain 6.0',
+        if (config.device != null) '-device ${config.device!.id}',
         ..._getEncoderSettings(config.encoder, config.bitRate),
       ],
       onStarted: () {
@@ -130,8 +131,7 @@ class RecordLinux extends RecordPlatform {
   Future<String?> stop(String recorderId) async {
     final path = _path;
 
-    await _callFMedia(['--globcmd=stop'], recorderId: recorderId);
-    await _callFMedia(['--globcmd=quit'], recorderId: recorderId);
+    await _callFMedia(['remote stop'], recorderId: recorderId);
 
     _updateState(RecordState.stop);
 

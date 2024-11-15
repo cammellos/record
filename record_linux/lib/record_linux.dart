@@ -109,15 +109,12 @@ class RecordLinux extends RecordPlatform {
 
     await _callFMedia(
       [
-        '--notui',
-        '--background',
-        '--record',
-        '--out=$path',
-        '--rate=${config.sampleRate}',
-        '--channels=$numChannels',
-        '--globcmd=listen',
-        '--gain=6.0',
-        if (config.device != null) '--dev-capture=${config.device!.id}',
+        '--remote', //
+        '--out $path',
+        '--rate ${config.sampleRate}',
+        '--channels $numChannels',
+        '--gain 6.0',
+        if (config.device != null) '--device ${config.device!.id}',
         ..._getEncoderSettings(config.encoder, config.bitRate),
       ],
       onStarted: () {
